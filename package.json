@@ -1,0 +1,26 @@
+{
+  "name": "darethetruth",
+  "version": "1.0.0",
+  "description": "DARETHETRUTH is an online app for friends to play the native truth or dare game around the world. It allows you to join the game from anywhere in the world.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emperor-orbitz/darethetruth.git"
+  },
+  "keywords": [
+    "dare",
+    "truth"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emperor-orbitz/darethetruth/issues"
+  },
+  "homepage": "https://github.com/emperor-orbitz/darethetruth#readme",
+  "dependencies": {
+    "mkdirp": "^1.0.3"
+  }
+}
