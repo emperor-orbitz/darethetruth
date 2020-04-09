@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SearchGameComponent implements OnInit {
 
+  title:String = "Search Game"
   constructor() { }
 
   ngOnInit(): void {

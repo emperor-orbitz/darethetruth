@@ -7,7 +7,7 @@ $password = $_POST['password'];
 
 
 if (isset($_POST['login'])) {
-$query = "SELECT * FROM player WHERE username = '$username' AND password = '$password'";
+$query = "SELECT * FROM players WHERE username = '$username' AND password = '$password'";
 $result = mysqli_query($conn,$query);
 $number_of_row = mysqli_num_rows($result);
 $player = array();
