@@ -1,67 +1,64 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CreateGameComponent } from './create-game/create-game.component';
-import { JoinGameComponent } from './join-game/join-game.component';
-import { SearchGameComponent } from './search-game/search-game.component';
-import { LogoutComponent } from './logout/logout.component';
+
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import {FormsModule, ReactiveFormsModule} from "@angular/forms"
+import { MatInputModule } from "@angular/material/input"
+import { MatCardModule } from "@angular/material/card"
+import {MatButtonModule} from "@angular/material/button"
+import {MatGridListModule } from "@angular/material/grid-list"
+
+import {HttpClientModule} from "@angular/common/http"
+import {AngularFireModule} from "angularfire2"
+import {AngularFireAuthModule} from "angularfire2/auth";
+import {AngularFirestoreModule} from "angularfire2/firestore";
+
+import { SignupComponent } from './signup/signup.component'
+import {environment} from "../environments/environment.prod";
+import { TruthOptionsComponent } from './truth-options/truth-options.component';
+import { DareOptionsComponent } from './dare-options/dare-options.component';
 import { PlayGameComponent } from './play-game/play-game.component';
+import { GiveAnswerComponent } from './give-answer/give-answer.component';
+import { CheckAnswerComponent } from './check-answer/check-answer.component';
+import { JoinGameComponent } from './join-game/join-game.component'
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreateGameComponent,
-    JoinGameComponent,
-    SearchGameComponent,
-    LogoutComponent,
+ 
     LoginComponent,
     DashboardComponent,
-    PlayGameComponent
+    SignupComponent,
+    TruthOptionsComponent,
+    DareOptionsComponent,
+    PlayGameComponent,
+    GiveAnswerComponent,
+    CheckAnswerComponent,
+    JoinGameComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot([
-      {
-        path:"login",
-        component: LoginComponent,
-      },
-      {
-        path:"",
-        component: AppComponent
-      },
-    
-      {
-        path:"app",
-        component: DashboardComponent
-      },
-      {
-        path:"app/play",
-        component: PlayGameComponent
-      },
-      {
-        path:"app/create",
-        component:CreateGameComponent
-      },
-      {
-        path:"app/join",
-        component: JoinGameComponent
-      },
-      {
-        path:"app/search",
-        component:SearchGameComponent
-      },
-      {
-        path:"logout",
-        component: LogoutComponent
-      }
-  ])
+    FormsModule,
+     AngularFireModule.initializeApp(environment.firebaseConfig),
+    // AngularFirestoreModule.enablePersistence(),
+    MatInputModule, MatCardModule, MatButtonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    AngularFireAuthModule,
+    MatGridListModule,
+    //AngularFirestoreCollection
+    AngularFirestoreModule,
+   
+    //RouterModule.forRoot(),
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

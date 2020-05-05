@@ -299,18 +299,6 @@
   margin: 5% auto;
 }
 
-input[type='input'], input[type="password"]{
-display: block;
-width: 300px;
-height: 40px;
-border:none;
-background: grey;
-color: white;
-margin:5px auto 30px auto;
-border-radius: 30px;
-
-
-}
 
 input[type="submit"]{
 width: 300px;
@@ -328,5 +316,14 @@ margin-right:auto;
 width:30%;
 display: flex;
 justify-content: center;
+
+}
+
+
+.error-box{
+  color:red;
+  margin-bottom: 10px;
+  text-align: center;
+  border-bottom:1px solid red;
 
 }

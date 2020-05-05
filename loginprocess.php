@@ -10,6 +10,7 @@ if (isset($_POST['login'])) {
 $query = "SELECT * FROM players WHERE username = '$username' AND password = '$password'";
 $result = mysqli_query($conn,$query);
 $number_of_row = mysqli_num_rows($result);
+echo $result;
 $player = array();
 
 if ($number_of_row == 1) {
@@ -26,7 +27,9 @@ if ($number_of_row == 1) {
 	 }		
 
 } else{
-	header("location: error.php");
+	echo $result;
+
+	//header("location: error.php");
 	}
 
 }

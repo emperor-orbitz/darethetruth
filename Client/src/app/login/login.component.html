@@ -22,22 +22,36 @@
       
       
       <div class="content" role="main">
-      
-      
-            <header class="header">
-                    <h2>Login Page</h2>
-                </header>
-                <section class="formsection">
-                
-                <form>
-                <span>Username</span>
-                <input type="input" name ='username' id="username" placeholder="Username">
-                <span>Password</span>
-                <input type="password" name ='password' id="password" placeholder="Password">
-                <input type="submit" name ='submit_login' id="submit_login">
-                </form>
-                
-                </section>
+          <header class="header">
+              <h2>{{title}} Page</h2>
+          </header>
+
+          <p *ngIf="error.active" class="error-box"> {{error.message}}</p>
+
+          <mat-card>
+              <form (submit) ="login(loginForm)" #loginForm="ngForm">
+              <mat-form-field appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput placeholder='Email' ngModel name="email" required #email='ngModel' />
+                <mat-error *ngIf='email.invalid'> Email is required </mat-error>
+              </mat-form-field>
+              <br />
+            
+              <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                <input matInput placeholder="Password" ngModel name="password" required #password='ngModel' type="password" />
+                <mat-error *ngIf='password.invalid'> Password is required </mat-error>
+              </mat-form-field>
+
+              <br/>
+                  <button mat-raised-button color="primary" (click)="login(loginForm)">{{title}}</button>
+            </form>
+            <p> <a routerLink="../signup"> Don't have an account</a></p>
+            </mat-card>
+            
+            
+        
+              
       
       
       
