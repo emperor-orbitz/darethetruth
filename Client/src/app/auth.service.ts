@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth'
-
+import { AngularFirestore } from 'angularfire2/firestore'
+import { first } from "rxjs/operators"
+import { User } from 'firebase';
+import { GameService } from './game.service';
 
 
 
@@ -8,57 +11,64 @@ import { AngularFireAuth } from 'angularfire2/auth'
   providedIn: 'root'
 })
 export class AuthService {
-  loggedInStatus:any;
+  loggedInStatus: Promise<User>
+  user_info:Promise<any>
+  user_datum:Promise<any>
+  constructor(private afa: AngularFireAuth, private afs: AngularFirestore) {
 
-  constructor(private afa:AngularFireAuth) {
-   
-    
-   }
-
-   createUser(user){
-      return this.afa.auth.createUserWithEmailAndPassword(user.email, user.password)
-               
-  }
-
-
-  isloggedin(){
-
-    let storage_data = JSON.parse(localStorage.getItem("dtd_user"))
-
-      // return this.afa.authState.toPromise().then((res)=>{
-      //   console.log(res, "dsds")
-      //     if (res.uid){
-      //       let {email, displayName, uid, photoURL } = res
-      //       if(storage_data ==null) this.saveToStorage({email, displayName, uid, photoURL, active_game:null});
-      //       return true
-      //     }
-      //     return false;
-      // })
-      // .catch(err=>{console.log(err,"erroror")})
-    
-
-
+    this.loggedInStatus = this.isloggedin()
+    this.user_info = this.user_data()
     
   }
 
- 
-  saveToStorage(data){
-    localStorage.setItem("dtd_user", JSON.stringify({...data}))
 
-  }
+  async createUser(user:any) {
+    //create user and save to DB
+   let e = await this.afa.auth.createUserWithEmailAndPassword(user.email, user.password)
 
- 
-
-login(user){
-
-return this.afa.auth.signInWithEmailAndPassword(user.email, user.password)
-}
-
-
-logout(){
-  return this.afa.auth.signOut()
+   return this.afs.doc(`users/${e.user.uid}`).set({
+      uid: e.user.uid,
+      username:" ", 
+      email: user.email, 
+      email_verfied:e.user.emailVerified,
+      active_game:null
+    })
+  
   
 }
+
+  public async user_data(){
+    let user = await this.loggedInStatus
+    let data = await this.afs.doc(`users/${user.uid}`).get().pipe(first()).toPromise()
+    console.log(data.data(), "this.is from data")
+    return data.data()
+    }
+
+
+    
+  private isloggedin() {
+       return this.afa.authState.pipe(first()).toPromise();
+  }
+
+
+  saveToStorage(data) {
+    localStorage.setItem("dtd_user", JSON.stringify({ ...data }))
+  }
+
+
+
+  login(user) {
+    return this.afa.auth.signInWithEmailAndPassword(user.email, user.password)
+  }
+
+
+
+  logout(){
+    localStorage.removeItem('dtd_user')
+    localStorage.removeItem("game_members")
+    return this.afa.auth.signOut()
+
+  }
 
 
 }

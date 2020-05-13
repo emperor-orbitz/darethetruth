@@ -38,7 +38,6 @@ export class LoginComponent implements OnInit {
 
        localStorage.setItem("dtd_user", JSON.stringify({email, displayName, uid, photoURL, active_game:null}))
         this.router.navigate(["app"])
-
       },
       (fail) => {
      this.error={

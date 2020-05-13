@@ -34,19 +34,19 @@ const routes: Routes = [
   {
     path:"app",
     component: DashboardComponent,
-    canActivate:[AuthGuard],
+    //canActivate:[AuthGuard],
         children:[
           {
             path:"",
             component: PlayGameComponent,
-
+            canActivate:[AuthGuard]
           },
           {
-          path:"truth-options",
+          path:"truth-options/:darer_id/:daree_id",
           component:TruthOptionsComponent
         },
         {
-          path:"dare-options",
+          path:"dare-options/:darer_id/:daree_id",
           component:DareOptionsComponent
         },
         {

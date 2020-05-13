@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
+import {AuthService} from "./auth.service"
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -25,6 +25,7 @@ import { PlayGameComponent } from './play-game/play-game.component';
 import { GiveAnswerComponent } from './give-answer/give-answer.component';
 import { CheckAnswerComponent } from './check-answer/check-answer.component';
 import { JoinGameComponent } from './join-game/join-game.component'
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -46,7 +47,6 @@ import { JoinGameComponent } from './join-game/join-game.component'
     AppRoutingModule,
     FormsModule,
      AngularFireModule.initializeApp(environment.firebaseConfig),
-    // AngularFirestoreModule.enablePersistence(),
     MatInputModule, MatCardModule, MatButtonModule,
     HttpClientModule,
     ReactiveFormsModule,
@@ -58,7 +58,7 @@ import { JoinGameComponent } from './join-game/join-game.component'
     //RouterModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [ ],
+  providers: [MatDialog ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -19,8 +19,7 @@ export class SignupComponent implements OnInit {
   //email_taken:Boolean= false;
   constructor(private auth:AuthService, private router: Router) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
 
   signup(form: NgForm){
@@ -31,7 +30,7 @@ export class SignupComponent implements OnInit {
      else{
       this.auth.createUser({email: form.value.email, password: form.value.password})
           .then(user =>{
-            console.log(user)
+            console.log(user, "user is void")
           },
           fail =>{
            console.log(fail)

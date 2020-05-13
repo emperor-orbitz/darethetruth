@@ -1,1 +1,17 @@
-<p>truth-options works!</p>
+
+<p *ngIf="isLoading == true">Loading User Data</p>
+<h2>Know the truth from @{{selected_daree}}</h2>
+<h3>Questions</h3>
+<div>
+Here are a list of questions you could try with your pals
+
+</div>
+
+<div>
+
+<form (submit)="truthyUser()">    
+<textarea required rows="10" cols="50" [(ngModel)]="truth_content" placeholder="Hear the deeepest truth from your friends" name="dare_content"></textarea>
+<input type="submit" name="submit" value="submit"  />
+</form>
+
+</div>

@@ -1,1 +1,19 @@
-<p>check-answer works!</p>
+<p>Check your group challenges</p>
+<div>
+<p *ngIf="isLoading == true">
+Loading Quests...
+</p>
+
+
+<ol>
+<div *ngFor="let quest of quests">
+<li>
+    <p>{{quest.darer_data.username}} <b>{{quest.question.type}}ED</b> {{quest.daree_data.username}}</p>
+    <p><b>{{quest.question.type}}:</b> {{quest.question.content}}</p>
+    <p *ngIf="user.uid == quest.daree_data.uid"><button mat-raised-button (click)="replyChallenge()">REPLY</button></p>
+</li>
+
+</div>
+</ol>
+
+</div>
