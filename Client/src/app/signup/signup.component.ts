@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../auth.service"
 import { NgForm } from '@angular/forms';
 import { Route, Router } from '@angular/router';
+import { first, map, take } from 'rxjs/operators';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 
 
@@ -17,7 +19,7 @@ export class SignupComponent implements OnInit {
     message:""
   }
   //email_taken:Boolean= false;
-  constructor(private auth:AuthService, private router: Router) { }
+  constructor(private auth:AuthService, private router: Router, private afs:AngularFirestore) { }
 
   ngOnInit(): void {}
 
@@ -28,7 +30,12 @@ export class SignupComponent implements OnInit {
        return;
      }
      else{
-      this.auth.createUser({email: form.value.email, password: form.value.password})
+      //check database for username if present
+      this.auth.checkUsername(form.value.username).then(
+        (doc)=>{
+           if(doc.length==0){
+             //register in database
+          this.auth.createUser({username:form.value.username,email: form.value.email.toLowerCase(), password: form.value.password})
           .then(user =>{
             console.log(user, "user is void")
           },
@@ -39,6 +46,15 @@ export class SignupComponent implements OnInit {
             
           })
       
+           }
+           else{
+            //username has been used
+            this.error.active = true;
+            this.error.message = "Username has been taken"
+           }
+           }
+      )
+
       
       }
    }

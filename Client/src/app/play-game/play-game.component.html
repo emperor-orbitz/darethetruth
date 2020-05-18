@@ -1,5 +1,5 @@
 <div class="play-game-div">
-    <h2>Welcome {{me.email}}</h2>
+    <h2>Welcome {{my_username}}</h2>
 
 
 
@@ -15,29 +15,34 @@
     </div>
 
     <div *ngIf="pendingAction==true">
-        <p>Someone <a routerLink="check-answer">challenged</a> you. Reply to unlock the group</p>
+        <p>Someone <a routerLink="check-answer">challenged</a> you. Accept to unlock the group</p>
         </div>
 
     <div *ngIf="active_game == null">
         <button (click)='createGame()'>START GAME</button>
-        <button (click)="open_box()">Add Link</button>
+        <button (click)="open_box()">Join Game</button>
         <p *ngIf="open_join_game_id">
             <input type="text" [(ngModel)]="join_game_id" />
-            <button (click)="joinGame()">JOIN GAME</button>
+            <button (click)="joinGame()">GO!</button>
         </p>
     </div>
 
-    <div class="game-panel" *ngIf="active_game == true">
-        <h3>Game Members</h3>
+        <div class="game-panel" *ngIf="active_game == true">
+        <h3>Game Members (CODE: {{invite_code}})</h3>
+        <span> Check <a routerLink="check-answer">Quests</a> here</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;                
+        <button mat-raised-button size="small" color="secondary" type="submit" (click)="leaveGame()">leave game</button>
+        
+
         <hr>
         <!--{{me.email}}-->
         <div *ngFor="let player of members">
-            <div> USER: {{player.email==me.email? "ME "+(player.email):player.email}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                    <div *ngIf="me.email != player.email" style="float:right;">
+            <div> USER: {{player.email==my_email? "(ME) "+(player.username):player.username}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                    <div *ngIf="my_email != player.email" style="float:right;">
                         <span>
-            <a [routerLink]="['truth-options',me.uid, player.uid ]">TRUTH</a>
+            <a [routerLink]="['truth-options',my_uid, player.uid ]">TRUTH</a>
                 </span> &nbsp;or
-                &nbsp;<span><a [routerLink]="['dare-options', me.uid, player.uid]">DARE</a></span>
+                &nbsp;<span><a [routerLink]="['dare-options', my_uid, player.uid]">DARE</a></span>
         </div>
     </div>
 

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { GameStoreService } from '../game-store.service';
 import { GameService } from '../game.service';
-//import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {JoinGameComponent} from "../join-game/join-game.component"
+import {MatDialog} from '@angular/material/dialog';
+import { GiveAnswerComponent } from '../give-answer/give-answer.component';
+import { UserStoreService } from '../user-store.service';
+import { Router } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-check-answer',
@@ -15,8 +19,9 @@ export class CheckAnswerComponent implements OnInit {
   quests: any;
   game: any;
   user:any
+  user_id:any
 
-  constructor( private gameService: GameService, private gs: GameStoreService) { }
+  constructor(private route:Router, private userStore:UserStoreService, private gameService: GameService, private gs: GameStoreService, private dialog:MatDialog) { }
 
   ngOnInit(): void {
     
@@ -30,10 +35,12 @@ export class CheckAnswerComponent implements OnInit {
             
           }
           else {
-            this.user = this.gameService.user_data
+            this.user_id = this.userStore.user_data().uid
+            console.log(this.user_id, "this is me gan")
+            //this.user = this.gameService.user_data
             this.isLoading = false
             this.active_game = true;
-            this.quests = nxt[0].quests.reverse() //reverse order ascending
+            this.quests = nxt[0].quests //reverse order ascending
             this.game = nxt[0]
             
             
@@ -44,22 +51,26 @@ export class CheckAnswerComponent implements OnInit {
   }
 
   
-  replyChallenge(): void {
-  //   const dialogRef = this.dialog.open(JoinGameComponent, {
-  //     width: '250px',
-  //     data: {name: "j", animal: "jkknjk"}
-  //   });
+  replyChallenge(data): void {
+    const dialogRef = this.dialog.open(GiveAnswerComponent, {
+      width: '250px',
+      data:{
+        current_game:data,
+        game: this.gs._game.getValue()[0].quests,
+        //active game ID
+        active_game_id:this.userStore.user_data().active_game
+      }
+    });
 
-  //   dialogRef.afterClosed().subscribe(
-  //     {
-  //     next: (result) => {
-  //     console.log('The dialog was closed');
-  //     //this.animal = result;
-  //   }
-  // })
+    dialogRef.afterClosed().subscribe(
+      {
+      next: (result) => {
+        this.route.navigate(["app"])
+      console.log('The dialog was closed. RESULT:', result );
 
-  let answer = prompt("Type your custom dare/truth question here", "")
-  console.log(answer)
+    }
+  })
+
 
 }
 

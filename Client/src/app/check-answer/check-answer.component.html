@@ -1,16 +1,22 @@
-<p>Check your group challenges</p>
 <div>
+    <h2>QUESTS</h2>
+
 <p *ngIf="isLoading == true">
-Loading Quests...
+Checking your group. Loading Quests...
 </p>
+<p *ngIf="quests == null && isLoading ==false">No quests for now</p>
 
 
 <ol>
-<div *ngFor="let quest of quests">
-<li>
-    <p>{{quest.darer_data.username}} <b>{{quest.question.type}}ED</b> {{quest.daree_data.username}}</p>
-    <p><b>{{quest.question.type}}:</b> {{quest.question.content}}</p>
-    <p *ngIf="user.uid == quest.daree_data.uid"><button mat-raised-button (click)="replyChallenge()">REPLY</button></p>
+
+<div *ngFor="let quest of quests" >
+<li style="margin-bottom: 20px;">
+    <p><u>{{quest.darer_data.username}} <b>TO</b> {{quest.daree_data.username}}</u></p>
+    <p><b>TYPE: </b> {{quest.question.type}}</p>
+    <p><b>QUESTION:</b> {{quest.question.content}}</p>
+    <p *ngIf="quest.answer==null">Waiting the truth....</p>
+    <p *ngIf="user_id == quest.daree_data.uid && quest.answer == null"><button mat-raised-button (click)="replyChallenge(quest)">REPLY</button></p>
+
 </li>
 
 </div>

@@ -3,8 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore'
 import { AuthService } from "./auth.service"
 import {GameStoreService} from "./game-store.service"
 import * as firebase from 'firebase/app'
-import { first } from 'rxjs/operators';
-
+import {UserStoreService} from "./user-store.service"
 
 
 @Injectable({
@@ -18,33 +17,63 @@ export class GameService {
   subscribed_game: any;
   game:any
 
-  constructor(private afs: AngularFirestore, private authService: AuthService, private gs: GameStoreService) {
-    //get user
-    this.authService.loggedInStatus.then(user => { this.user = user })
-    this.authService.user_data().then(user_data =>{ this.user_data = user_data})
-    this.gameShot().then(game =>{ this.game = game})
+  constructor( private userStore:UserStoreService, private afs: AngularFirestore, private authService: AuthService, private gs: GameStoreService) {
+    
     this.subscribeToGame()
 
   }
 
 
-  async subscribeToGame(user_data? ) {
-    console.log("my user data", user_data)
-    let user = user_data!= undefined ? user_data : await this.authService.user_data()
-    if(user.active_game == null){
-      console.log("active gama was null", user.active_game)
-      this.gs.addGame([])
+   subscribeToGame(user_data? ) {
+    //console.log("my user data", user_data)
+    
+    this.authService.user_data$().then(
+      observable_data=>{
+        if(observable_data == null){ return; } //he is not online
+        else{
+          observable_data.subscribe(
+            {
+              next:(user:any)=>{
+                if(user.active_game == null){
+                  this.userStore.addUser(user) //add user to obs
+                  this.gs.addGame([]) //add game to obs
+                }
+                else{
+                  this.afs.doc(`games/${user.active_game}`).valueChanges()
+                  .subscribe(
+                    {
+                    next:(nxtFn: any) => {
+                   
+                    if(nxtFn && nxtFn.quests == null ) {
+                      this.userStore.addUser(user) //add user to obs
+                      this.gs.addGame([nxtFn])
+                    }
+                    else if(nxtFn && nxtFn.quests != null){
+                      this.userStore.addUser(user) //add user to obs
 
-    }
-    else
-     this.afs.doc(`games/${user.active_game}`).valueChanges()
-      .subscribe(
-        {
-        next:(nxtFn: any) => {
-        if(nxtFn) this.gs.addGame([nxtFn])
-        else this.gs.addGame([])
+                      nxtFn.quests.reverse()  //add reversed game
+                        this.gs.addGame([nxtFn])
+                    }
+                    else this.gs.addGame([])
+            
+            
+                    }
+                  })
+
+
+                }
+              }
+            }
+          )
         }
-      })
+       
+
+
+
+      }
+    )
+    
+  
 
   }
 
@@ -55,49 +84,57 @@ export class GameService {
   async createGame(){
     let code = this.generateUID()
     //const uuid = this.getUserId()
-    let user_data = await this.authService.user_data()
-    console.log(user_data, "user hasssss")
+    let user_data = this.userStore.user_data()
+    //console.log(user_data, "daaaatttaughggg")
+
+
     var doc = await this.afs.collection("games").add({ game_master: user_data.uid, game_member_count: 1, members: [{ ...user_data }], refer_code: code }) //add game and get ID
     var path = this.afs.doc(doc.path).ref.id;
+    await this.afs.doc(`users/${user_data.uid}`).set({ active_game: path }, { merge: true })
 
     await this.afs.doc("games-ref/" + path).set({ game_code: code, game_id: path }) //add game to game-link COLLECTION
-    await this.afs.doc(`users/${user_data.uid}`).set({ active_game: path }, { merge: true })
+
   
       //shadow and subscribe initialize again
-    this.subscribeToGame(Object.assign({}, user_data, {active_game:path}))
+    //this.subscribeToGame() //no need to subscribe again
   
   }
 
 
 
  async joinGame(id){
-    let user_data = await this.authService.user_data()
-    
+
+    let user_data =  this.userStore.user_data()
     var fieldvalue = firebase.firestore.FieldValue;
-    var fbs = firebase.firestore();
-    //add to array
+    // //add to array
     let docs = await this.afs.collection('games-ref', ref => ref.where('game_code', '==', id)).get().toPromise()    
     
     docs.docs.forEach(doc =>{
       let { game_id } = doc.data()
       user_data = Object.assign({}, user_data, {active_game: game_id})
       console.log(doc.data())
-      fbs.collection("games").doc(game_id).update({ "members": fieldvalue.arrayUnion({ ...user_data }) })
       this.afs.doc(`users/${user_data.uid}`).set({ active_game: game_id }, { merge: true })
-      this.subscribeToGame()
+      this.afs.collection("games").doc(game_id).update({ "members": fieldvalue.arrayUnion({ ...user_data }) })
+     this.subscribeToGame()
+     //no need
     })
     
-
   }
 
  
-  async gameShot(){
-    let user_data = await this.authService.user_data()
-    return this.afs.doc(`games/${user_data.active_game}`).get().pipe(first()).toPromise()
-        .then(doc=>{
-          return doc.data()
-        })
+  async leaveGame(){
+    //remove from user doc
+    //remove from players array
+    var fieldvalue = firebase.firestore.FieldValue;
 
+    let my_ = this.userStore.user_data() //snapshot.
+    let filter = this.gs.removeGameMember(my_.uid)
+    await this.afs.doc(`users/${my_.uid}`).update({active_game:null}) //1
+    await this.afs.doc(`games/${my_.active_game}`).update({members: filter })
+ 
+    
+    
+   
   }
 
 

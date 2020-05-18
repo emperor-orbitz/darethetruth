@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {AuthService} from "./auth.service"
+
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -11,6 +11,7 @@ import { MatInputModule } from "@angular/material/input"
 import { MatCardModule } from "@angular/material/card"
 import {MatButtonModule} from "@angular/material/button"
 import {MatGridListModule } from "@angular/material/grid-list"
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import {HttpClientModule} from "@angular/common/http"
 import {AngularFireModule} from "angularfire2"
@@ -25,13 +26,13 @@ import { PlayGameComponent } from './play-game/play-game.component';
 import { GiveAnswerComponent } from './give-answer/give-answer.component';
 import { CheckAnswerComponent } from './check-answer/check-answer.component';
 import { JoinGameComponent } from './join-game/join-game.component'
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialogModule} from '@angular/material/dialog';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 
 
 @NgModule({
   declarations: [
     AppComponent,
- 
     LoginComponent,
     DashboardComponent,
     SignupComponent,
@@ -43,22 +44,23 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
     JoinGameComponent
   ],
   imports: [
+    OverlayModule,
+    MatDialogModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
      AngularFireModule.initializeApp(environment.firebaseConfig),
+     AngularFireStorageModule,
     MatInputModule, MatCardModule, MatButtonModule,
     HttpClientModule,
     ReactiveFormsModule,
     AngularFireAuthModule,
     MatGridListModule,
-    //AngularFirestoreCollection
     AngularFirestoreModule,
-   
     //RouterModule.forRoot(),
     BrowserAnimationsModule
   ],
-  providers: [MatDialog ],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

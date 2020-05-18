@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
         let {email, displayName, uid, photoURL } = user.user
 
        localStorage.setItem("dtd_user", JSON.stringify({email, displayName, uid, photoURL, active_game:null}))
-        this.router.navigate(["app"])
+       window.location.href="/app"
+      // this.router.navigate(["/app"])
       },
       (fail) => {
      this.error={

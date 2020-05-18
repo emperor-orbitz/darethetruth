@@ -24,25 +24,34 @@ export class PlayGameComponent implements OnInit {
   members: any = ""
   open_join_game_id: Boolean = false
   join_game_id: any
-  me: any
+  me:firebase.firestore.DocumentData
   new_user: firebase.User
+  my_email:string ="Email"
+  my_username:any="User"
+  my_uid:string=" "
   isLoading: boolean = true
   game:any ={
     game_master:"",
-    isLocked:"FREE" //FREE, LOCKED, OPEN
+    isLocked:"FREE" //LOCKED or OPEN STATE  
   }
   pendingAction: boolean;
+  invite_code:string
 
-
-  constructor(private afs: AngularFirestore, private authService: AuthService, private gameService: GameService, private gs: GameStoreService) {
-    this.authService.loggedInStatus.then(e => {this.me = e})
-   // this.me = this.gameService.user_data
-    console.log(this.gameService.user_data, "ddfdfdfdfdfd")
+  constructor( private authService: AuthService, private gameService: GameService, private gs: GameStoreService) {
+   // this.authService.loggedInStatus.then(e => {this.me = e})
+   
+    this.authService.user_data().then(  e=>{
+      this.my_email =e.email
+      this.my_uid =e.uid
+      this.my_username= e.username
+    })
+  
   }
 
 
 
   ngOnInit(): void {
+   
     this.intialize()
 
   }
@@ -51,27 +60,33 @@ export class PlayGameComponent implements OnInit {
    
 
   intialize() {
-    //subscribe to game_store
     
+    //subscribe to game_store
+
+
     this.gs.game$.subscribe(
       {next: (nxt: any) => {
       if (nxt == null) { this.isLoading = true }
       else if (nxt.length == 0) {
         this.isLoading = false
         this.active_game = null
+        this.pendingAction =false
       }
       else {
 
-        
-        let recent_quest = nxt[0].quests[nxt[0].quests.length -1]
-        if(recent_quest.daree_data.uid == this.gameService.user_data.uid){
+        let recent_quest = nxt[0].quests == null ? null :nxt[0].quests[0]
+        if(recent_quest == null){} //do nothing
+
+        else if((recent_quest.daree_data.uid == this.gs.game_data().uid) && recent_quest.answer == null){
         //pending action. Someone dared you
-          this.pendingAction = true
+       // console.log(recent_quest, "this is recent queststst")
+
+        this.pendingAction = true
         }
 
-        this.pendingAction=true
         this.isLoading = false
         this.active_game = true;
+        this.invite_code =nxt[0].refer_code
         this.members = nxt[0].members
         this.game = nxt[0]
       }
@@ -81,6 +96,15 @@ export class PlayGameComponent implements OnInit {
   
   }
 
+
+  doesNotIncludeMe(big, uid){
+
+    let aa= big.find(v=> v.uid == uid)
+    console.log(aa)
+    return
+    
+  
+  }
 
 
 
@@ -105,7 +129,7 @@ export class PlayGameComponent implements OnInit {
 
 
   leaveGame() {
-
+    this.gameService.leaveGame()
   }
 
 

@@ -4,6 +4,9 @@ import { GameStoreService } from '../game-store.service';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { GameService } from '../game.service';
+import {UserStoreService} from "../user-store.service"
+import {Router} from "@angular/router"
+
 
 interface Store{
   members:Array<[]>
@@ -20,7 +23,7 @@ export class DareOptionsComponent implements OnInit {
   isLoading: Boolean= true
   dare_content:""
 
-  constructor(private afs:AngularFirestore,private activeRoute: ActivatedRoute,  private gameService:GameService, private gameServiceStore:GameStoreService) { }
+  constructor(private route:Router, private userStore: UserStoreService ,private afs:AngularFirestore,private activeRoute: ActivatedRoute,  private gameService:GameService, private gameServiceStore:GameStoreService) { }
 
  
   ngOnInit(): void {
@@ -47,7 +50,12 @@ export class DareOptionsComponent implements OnInit {
 
 
   daryUser(){
-    alert(this.dare_content)
+    console.log(this.userStore.user_data(), "this is the end")
+    let active_game = this.userStore.user_data().active_game;
+    alert(active_game)
+
+
+    
     var fieldvalue = firebase.firestore.FieldValue;
 
    let daree = this.gameServiceStore.findGamePlayer(this.activeRoute.snapshot.params["daree_id"])
@@ -62,9 +70,9 @@ export class DareOptionsComponent implements OnInit {
       },
       answer:null
     }
-
-    this.afs.collection("games").doc(darer.active_game).set({isLocked:"LOCKED", "quests": fieldvalue.arrayUnion({ ...data })}, {merge:true} )
-
+    //we cant rely on darer.active game again
+    this.afs.collection("games").doc(active_game).set({isLocked:"LOCKED", "quests": fieldvalue.arrayUnion({ ...data })}, {merge:true} )
+    this.route.navigate(['app'])
 
 
   }
