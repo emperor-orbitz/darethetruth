@@ -1,9 +1,10 @@
 var server = require("express");
+var process = require("process")
+
 var handleBar = require("consolidate").handlebars
 var app = server()
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 var path = require("path")
-var process = require("process")
 
 app.use(function (req, res, next) {
 
@@ -18,14 +19,14 @@ app.use(function (req, res, next) {
 
   app.set('view engine', 'handlebars');
   app.engine('handlebars', handleBar );
-  app.use(server.static(path.resolve(__dirname, "Client/dist/darethetruth")))
+  app.use(server.static(path.resolve(__dirname, "./Client/dist/darethetruth/")))
 
   app.get("*", (req, res) => {
 
-    res.sendFile(path.resolve(__dirname, "Client/dist/darethetruth/index.html"));
+    res.sendFile(path.resolve(__dirname, "./Client/dist/darethetruth/index.html"));
   });
 
 
-app.listen(process.env.PORT, ()=>{
+app.listen(PORT, ()=>{
     console.log("server running on port "+ PORT)
 })
