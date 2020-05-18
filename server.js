@@ -3,6 +3,7 @@ var handleBar = require("consolidate").handlebars
 var app = server()
 const PORT = 5000
 var path = require("path")
+var process = require("process")
 
 app.use(function (req, res, next) {
 
@@ -25,6 +26,6 @@ app.use(function (req, res, next) {
   });
 
 
-app.listen(PORT, ()=>{
+app.listen(process.env.PORT, ()=>{
     console.log("server running on port "+ PORT)
 })
