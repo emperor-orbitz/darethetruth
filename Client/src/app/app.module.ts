@@ -25,9 +25,9 @@ import { DareOptionsComponent } from './dare-options/dare-options.component';
 import { PlayGameComponent } from './play-game/play-game.component';
 import { GiveAnswerComponent } from './give-answer/give-answer.component';
 import { CheckAnswerComponent } from './check-answer/check-answer.component';
-import { JoinGameComponent } from './join-game/join-game.component'
 import { MatDialogModule} from '@angular/material/dialog';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { IndexComponent } from './index/index.component';
 
 
 @NgModule({
@@ -41,7 +41,7 @@ import { AngularFireStorageModule } from 'angularfire2/storage';
     PlayGameComponent,
     GiveAnswerComponent,
     CheckAnswerComponent,
-    JoinGameComponent
+    IndexComponent
   ],
   imports: [
     OverlayModule,

@@ -2,9 +2,12 @@
   "name": "darethetruth",
   "version": "1.0.0",
   "description": "DARETHETRUTH is an online app for friends to play the native truth or dare game around the world. It allows you to join the game from anywhere in the world.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "node server",
+    "nodemon": "./node_modules/nodemon/bin/nodemon.js --config nodemon.json --exec npm run server",
+    "start": "nodemon server.js "
   },
   "repository": {
     "type": "git",
@@ -22,7 +25,10 @@
   "homepage": "https://github.com/emperor-orbitz/darethetruth#readme",
   "dependencies": {
     "@angular/fire": "^6.0.0",
+    "consolidate": "^0.15.1",
+    "express": "^4.17.1",
     "firebase": "^7.14.2",
-    "mkdirp": "^1.0.3"
+    "mkdirp": "^1.0.3",
+    "nodemon": "^2.0.4"
   }
 }

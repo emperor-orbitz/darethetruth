@@ -12,9 +12,14 @@ import { PlayGameComponent } from './play-game/play-game.component';
 import { DareOptionsComponent } from './dare-options/dare-options.component';
 import { CheckAnswerComponent } from './check-answer/check-answer.component';
 import { GiveAnswerComponent } from './give-answer/give-answer.component';
-import  { JoinGameComponent } from "./join-game/join-game.component"
+import { IndexComponent } from './index/index.component';
 
 const routes: Routes = [
+  {
+      path:"",
+      component:IndexComponent
+  },
+  
   {
     path:"login",
     component: LoginComponent,
@@ -52,9 +57,7 @@ const routes: Routes = [
           path:"give-answer",
           component:GiveAnswerComponent
         },
-        { path:"join-game",
-        component: JoinGameComponent
-      }
+      
       
       ]}
     
