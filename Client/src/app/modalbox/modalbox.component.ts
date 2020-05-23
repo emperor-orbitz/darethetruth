@@ -1,46 +1,73 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {AngularFireStorage} from "angularfire2/storage"
-import {AngularFirestore} from "angularfire2/firestore"
-import {GameStoreService} from "../game-store.service"
+import { AngularFireStorage } from "angularfire2/storage"
+import { AngularFirestore } from "angularfire2/firestore"
+import { GameStoreService } from "../game-store.service"
+import { GameService } from '../game.service';
 import { UserStoreService } from '../user-store.service';
 
-interface Data{
-current_game:{
-  id:string,
-daree_data:{uid:String}
-},
-game:Array<any>,
-active_game_id:String
+interface Data {
+  current_game: {
+    daree_data: { uid: String }
+  },
+  game: Array<any>,
+  active_game_id: String,
+  type:string
 }
 
-@Component({
-  selector: 'app-give-answer',
-  templateUrl: './give-answer.component.html',
-  styleUrls: ['./give-answer.component.css']
-})
-export class GiveAnswerComponent implements OnInit {
 
-  title:String ="Submit Answer"
-  answer:String ="Reply"
-  proof:File 
-  downloadURL:String=""
-  taskComplete:String
-  constructor(private user_store:UserStoreService,private gs:GameStoreService ,@Inject(MAT_DIALOG_DATA) public data:Data, private afs: AngularFirestore,public dialogRef:MatDialogRef<GiveAnswerComponent>, private fireStorage:AngularFireStorage) { }
+
+
+
+
+@Component({
+  selector: 'app-modalbox',
+  templateUrl: './modalbox.component.html',
+  styleUrls: ['./modalbox.component.css']
+})
+export class ModalboxComponent implements OnInit {
+
+  title: String = "Submit Answer"
+  answer: String = "Reply"
+  proof: File
+  downloadURL: String = ""
+  taskComplete: String
+  MODAL_TYPE:string=""
+  GAME_ID:string=""
+
+  constructor(private game_service:GameService ,private user_store:UserStoreService,private gs:GameStoreService ,@Inject(MAT_DIALOG_DATA) public data:Data, private afs: AngularFirestore,public dialogRef:MatDialogRef<ModalboxComponent>, private fireStorage:AngularFireStorage) { 
+    this.MODAL_TYPE= data.type
+  }
 
   ngOnInit(): void {
-    console.log("I got this data from you oo", this.data)
+    console.log("I got this data from you oo", this.data.type)
   }
 
 
-  closeDialog() {
+  useShortKey(){
+    //use the shortkey provided
+    if(this.GAME_ID.length < 5){
+      alert("Input the right game key")
+    }
+    else{
+      this.game_service.joinGame(this.GAME_ID)
+      .then(_=>{
+         this.dialogRef.close('SUCCESS');
+  
+      })
+      .catch(e=> alert("The following error occured =>"+e))
+    }
+ 
+  }
+
+
+
+  submitProof() {
 
     let active_game_id = this.user_store.user_data().active_game //get active_game
-    //  this.gs.questMerge({id:this.data.current_game.id ,question:"csxc", answer:{content:"dsds", proof:"dsdsdsds"}}).then(data=>{
-    //   console.log("this is the game is changed", data)
-    //  })
+   
+
     // //answer question/submit and close Modal
-  
     //save image first then save URL to answer object in Database
     const rand= Math.random().toString(36).substring(2)
     let id = `quests/${this.data.current_game.daree_data.uid}-${rand}-${Date.now()}-${this.proof.name}`
@@ -70,7 +97,8 @@ export class GiveAnswerComponent implements OnInit {
   }
 
 
-  changeFile(files:FileList){
+
+  changeFile(files: FileList) {
     this.proof = files.item(0)
   }
 }

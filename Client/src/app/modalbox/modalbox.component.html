@@ -1,0 +1,31 @@
+<div class="modal-main">
+    <!-- <h2>{{title}}</h2>
+    <textarea name="answer" rows="5" cols="10" [(ngModel)]="answer"></textarea>
+    <input type="file" name="file" (change)="changeFile($event.target.files)"/>
+    <button (click)="closeDialog()">Answer</button> -->
+
+   <div *ngIf="MODAL_TYPE =='GAME-KEY' "> 
+       <p>Join a game through an invite key</p>
+       <mat-form-field appearance="legacy" style="width: 100%;">
+           <label>Short Key</label>
+           <input matInput type="text" placeholder="e.g. xA39cc" [(ngModel)]="GAME_ID" required minlength="4"/>
+       </mat-form-field>
+       <button mat-raised-button (click) ="useShortKey()" >JOIN</button>
+    </div>
+
+
+    <div *ngIf="MODAL_TYPE =='REPLY-CHALLENGE'"> 
+        <p>Submit a honest Answer</p>
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <label>Answer in text</label>
+            <textarea matInput style="width: 100%;" name="answer" [(ngModel)]="answer"></textarea>
+        </mat-form-field>
+
+            <label>Extra proof</label>
+            <input type="file" name="file" (change)="changeFile($event.target.files)" style="margin-bottom:5px; border:2px solid gold; border-radius: 3px;"/>
+        <button mat-raised-button (click)="submitProof()" style="color:white">Answer</button>
+        </div>
+    
+        
+
+</div>

@@ -138,6 +138,11 @@ export class GameService {
   }
 
 
+  public generateUIDWithTime(){
+    return `${Date.now()}- ${this.generateUID()}`;
+  }
+
+
   private generateUID() {
     // I generate the UID from two parts here 
     // to ensure the random number provide enough bits.

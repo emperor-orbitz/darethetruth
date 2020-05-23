@@ -1,51 +1,100 @@
 <div class="play-game-div">
-    <h2>Welcome {{my_username}}</h2>
 
 
 
+    <div class="main-loader" *ngIf="isLoading == true else noLoader">
 
-    <div *ngIf="isLoading == true">
-
-        <p>Loading...</p>
+        <div class="ds-hourglass loader-flex"></div>
+        <div class="loader-flex-2">Setting up your Playground</div>
 
     </div>
 
-    <div *ngIf="game.isLocked=='LOCKED'">
-    <p>THE GAME IS STATE IS CURRENTLY: <b>{{game.isLocked}}</b></p>
-    </div>
 
-    <div *ngIf="pendingAction==true">
-        <p>Someone <a routerLink="check-answer">challenged</a> you. Accept to unlock the group</p>
+    <ng-template #noLoader>
+        <div class="no-game" *ngIf="active_game == false">
+            <div class="welcome" *ngIf="notification == true">
+                <!--SET THIS FOR NOTIF DATA WITH A CLOSE BUTTON-->
+                <p>Howdy {{my_username}} <button mat-icon-button (click)="closeNotif()">
+                        <mat-icon>close</mat-icon>
+                    </button> </p>
+            </div>
+            <div class="no-game-section">
+
+                <div class="create-game">
+                    <h2 style="color:white;"> Start a new Game or join friends!</h2>
+
+                    <button mat-button class="mat-raised-button" (click)="createGame()">
+                        <mat-icon>touch_app</mat-icon> Start a Game
+                    </button>
+
+                </div>
+
+                <div class="join-game">
+                    <button mat-button class="mat-raised-button" style="width:50%" (click)="insertKey()">
+                        <mat-icon>settings_remote</mat-icon> Join a Game
+                    </button>
+
+                </div>
+
+            </div>
         </div>
 
-    <div *ngIf="active_game == null">
-        <button (click)='createGame()'>START GAME</button>
-        <button (click)="open_box()">Join Game</button>
-        <p *ngIf="open_join_game_id">
-            <input type="text" [(ngModel)]="join_game_id" />
-            <button (click)="joinGame()">GO!</button>
-        </p>
-    </div>
 
         <div class="game-panel" *ngIf="active_game == true">
-        <h3>Game Members (CODE: {{invite_code}})</h3>
-        <span> Check <a routerLink="check-answer">Quests</a> here</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;                
-        <button mat-raised-button size="small" color="secondary" type="submit" (click)="leaveGame()">leave game</button>
-        
+            <div class="welcome" *ngIf="notification == true">
+                <p>
+                    <mat-icon>notifications_outline</mat-icon>
+                    <span >You have an <a routerLink="check-answer">unread</a> challenge.</span>
 
-        <hr>
-        <!--{{me.email}}-->
-        <div *ngFor="let player of members">
-            <div> USER: {{player.email==my_email? "(ME) "+(player.username):player.username}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
-                    <div *ngIf="my_email != player.email" style="float:right;">
-                        <span>
-            <a [routerLink]="['truth-options',my_uid, player.uid ]">TRUTH</a>
-                </span> &nbsp;or
-                &nbsp;<span><a [routerLink]="['dare-options', my_uid, player.uid]">DARE</a></span>
+
+                    <button mat-icon-button (click)="closeNotif()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </p>
+                <!--SET THIS FOR NOTIF DATA WITH A CLOSE BUTTON-->
+            </div>
+
+
+
+            <div class="game-page">
+                <div class="game-actions">
+                    <h3>Game Members (KEY: {{invite_code}})</h3>
+                        <button mat-button type="submit" (click)="copyToClipboard(invite_code)">
+                            <mat-icon>flip</mat-icon> <span style="color:gold">Copy Key to clipboard</span>
+                        </button>
+
+                    <!-- <span> Check Quests</a> here</span> -->
+                </div>
+
+                <div class="game-players">
+
+                    <div class="player-bar" *ngFor="let player of members">
+                        <div style="font-weight:bold;"> @{{player.email==my_email? "ME ":player.username}} &nbsp;
+                            &nbsp; &nbsp;
+                            &nbsp; &nbsp;
+                            <div *ngIf="my_email != player.email" style="float:right;">
+                                <span>
+                                    <a [routerLink]="['truth-options',my_uid, player.uid ]"><button
+                                            class="truth-button">Truth</button></a></span> &nbsp;
+                                &nbsp;<span><a [routerLink]="['dare-options', my_uid, player.uid]"><button
+                                            class="dare-button">Dare</button></a></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button mat-raised-button style="color:red; margin-top:15px; width:40%" type="submit"
+                        (click)="leaveGame()">Leave game</button>
+
+
+                </div>
+
+
+
+
+
+
+            </div>
         </div>
-    </div>
-
-</div>
+    </ng-template>
 
 </div>

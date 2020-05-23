@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs"
+import {UserStoreService} from "./user-store.service"
+import * as firebase  from "firebase/app"
 
 @Injectable({
   providedIn: 'root'
@@ -35,16 +37,49 @@ export class GameStoreService{
 
 
 
-  public questMerge(quest_object){
+  private async questFind(active_game_id){
 
-  let quest = this._game.getValue()[0].quests.reverse()
-   //dangerously reverse, replace last item with quest_object
-  quest[quest.length -1] = quest_object
-  return quest;
+    
+    //get active game and update
+  return await firebase.firestore().doc(`games/${active_game_id}`).get();
+            
+ 
+  // let quest_id = quest_object.id
+  // let quest = this._game.getValue()[0].quests.reverse()
+  //   //find in array with ID
+  //   let mapped = quest.map(x=>{
+  //     if(x.id == quest_id){
+  //       x = quest_object
+  //     }
+  //     return x
+  //   })
+  //   console.log("mapped", mapped)
+
+
+  // return mapped;
 
   }
 
+public async questMerge(active_game_id, quest_object){
+return await this.questFind(active_game_id).then(data=>{
+  
+  let quests = data.data().quests
 
+    let quest_id = quest_object.id
+  //   //find in array with ID
+    let mapped = quests.map(x=>{
+      if(x.id == quest_id){
+        x = quest_object
+      }
+      return x
+    })
+    console.log("mapped", mapped)
+
+
+  return mapped;
+
+})
+}
 
   
   removeGameMember(uid){

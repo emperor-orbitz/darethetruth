@@ -3,62 +3,65 @@
 
 
 
-
+<div id="login-main">
 <!-- Toolbar -->
 <div class="toolbar" role="banner">
-        <img
-          width="40"
-          alt="Our Logo"
-          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
-        />
-        <span>Darethetruth</span>
-          <div class="spacer"></div>
+       
+        <a href="/"><h2>Realm</h2></a>
+        <div class="spacer"></div>
         
-      </div>
-      
-      
-      
-      
+</div>
       
       
       <div class="content" role="main">
-          <header class="header">
-              <h2>{{title}} Page</h2>
+        <div class="item-1"> 
+        <header class="header">
+              <h2>Welcome back!</h2>
+              <span>Login to enter playground</span>
           </header>
+        </div>
+        <div class="item-error" *ngIf="error.active"> 
+          <p class="error"> {{error.message}}</p>
+          </div>
 
-          <p *ngIf="error.active" class="error-box"> {{error.message}}</p>
 
-          <mat-card>
+          <div class="item-2">
+          <!--<mat-card>-->
+            <div class="spacer"></div>
+
               <form (submit) ="login(loginForm)" #loginForm="ngForm">
-              <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder='Email' ngModel name="email" required #email='ngModel' />
+              <mat-form-field appearance="outline" style="width:300px"  >
+                <mat-icon matPrefix>person_outline</mat-icon>
+                <mat-label style="color:#5D3B78 ;">Player Email</mat-label>
+                <input matInput placeholder='Email' ngModel name="email" type="email" required #email='ngModel' style="color:#5D3B78;"/>
                 <mat-error *ngIf='email.invalid'> Email is required </mat-error>
               </mat-form-field>
-              <br />
-            
-              <mat-form-field appearance="outline">
+              
+              <div class="spacer"></div>
+
+
+              <mat-form-field appearance="outline" style="width:300px" >
                   <mat-label>Password</mat-label>
+                  <mat-icon matPrefix>vpn_key</mat-icon>
+
                 <input matInput placeholder="Password" ngModel name="password" required #password='ngModel' type="password" />
                 <mat-error *ngIf='password.invalid'> Password is required </mat-error>
               </mat-form-field>
+              <p style="text-align: right;"><i>Forgot password?</i></p>
 
-              <br/>
-                  <button mat-raised-button color="primary" type="submit">{{title}}</button>
+                  <button mat-raised-button color="primary" type="submit" class="login-button">Enter</button>
             </form>
-            <p> <a routerLink="../signup"> Don't have an account</a></p>
-            </mat-card>
-            
-            
-        
-              
-      
+           <!-- <p> <a routerLink="../signup"> Don't have an account</a></p> -->
+            <!--</mat-card>-->
+           </div> 
+
+           <div class="item-3">
+         Don't have an account? <a routerLink="../signup">Signup</a>
+
+        </div>
+
       
       
       </div>
 
-
-
-<body>
-
-</body>
+</div>

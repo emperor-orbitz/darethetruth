@@ -1,25 +1,54 @@
-<div>
-    <h2>QUESTS</h2>
+<div class="check-answer-div">
 
-<p *ngIf="isLoading == true">
-Checking your group. Loading Quests...
-</p>
-<p *ngIf="quests == null && isLoading ==false">No quests for now</p>
+    <div class="main-loader" *ngIf="isLoading == true else noLoader">
+
+        <div class="ds-hourglass loader-flex"></div>
+        <div class="loader-flex-2">Checking your Quests. Loading Quests... </div>
+
+    </div>
 
 
-<ol>
+    <ng-template #noLoader>
 
-<div *ngFor="let quest of quests" >
-<li style="margin-bottom: 20px;">
-    <p><u>{{quest.darer_data.username}} <b>TO</b> {{quest.daree_data.username}}</u></p>
-    <p><b>TYPE: </b> {{quest.question.type}}</p>
-    <p><b>QUESTION:</b> {{quest.question.content}}</p>
-    <p *ngIf="quest.answer==null">Waiting the truth....</p>
-    <p *ngIf="user_id == quest.daree_data.uid && quest.answer == null"><button mat-raised-button (click)="replyChallenge(quest)">REPLY</button></p>
+        <div *ngIf="quests == null" class="no-quest">
+            <button mat-button class="mat-raised-button" disabled>No quests for now. Check back later.</button>
+        </div>
 
-</li>
 
-</div>
-</ol>
+
+        <!--LIST OF QUESTS// CHAT DESIGN PANEL COMES HERE-->
+        <div class="quests">
+            <h3>Quests Chats</h3>
+            <mat-accordion class="mat-accordion">
+                <mat-expansion-panel style="margin-bottom:10px;" *ngFor="let quest of quests">
+                    <mat-expansion-panel-header>
+                        
+                        <span *ngIf="quest.question.type =='DARE'" class="dare">
+                            {{quest.question.type}}
+                        </span>
+                        <span *ngIf="quest.question.type =='TRUTH'" class="truth">
+                            {{quest.question.type}}
+                        </span> 
+                        <p>{{quest.darer_data.username}} challenged <b>{{quest.daree_data.username}} </b>
+                             <span *ngIf="quest.answer==null">&nbsp;(Unread...)</span>
+                        </p>
+                    </mat-expansion-panel-header>
+
+                    <p *ngIf="quest.answer==null">Waiting for @{{quest.daree_data.username}}....</p>
+                    <p><b>QUESTION:</b> {{quest.question.content}}</p>
+                    <p><button *ngIf="user_id == quest.daree_data.uid && quest.answer == null" mat-raised-button (click)="replyChallenge(quest)">Reply</button></p>
+                  
+                    <div *ngIf="quest.answer != null">
+                        <p><b>ANSWER:</b> {{quest.answer.text}}</p>
+                        <img src ="{{quest.answer.proof}}" style="width:90%; height:200px;"/>
+                    </div>
+                  
+                </mat-expansion-panel>
+            </mat-accordion>
+            
+        </div>
+
+
+    </ng-template>
 
 </div>

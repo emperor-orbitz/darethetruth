@@ -1,17 +1,66 @@
 
-<p *ngIf="isLoading == true">Loading User Data</p>
-<h2>Dare @{{selected_daree}}. Let them do crazier stuffs</h2>
-<h3>Questions</h3>
-<div>
-Here are a list of questions you could try with your pals
 
+
+<div class="truth-game-div">
+    <div class="main-loader" *ngIf="isLoading == true else loadOff">
+        <div class="ds-hourglass loader-flex"></div>
+        <div class="loader-flex-2">Setting up your Playground</div>
+    </div>
+
+    <ng-template #loadOff>
+    <div class="question-panel">
+        <div class="auto-questions">
+        <h3 style="margin-top: 20px;">Dare @{{selected_daree}}</h3>
+        <p>Let's pick a random dare question for you</p>
+        <div class="player-bar" >
+            <div style="font-weight:bold;"> Who do you love the most? 
+                <span style="float:right;">
+                        <a><button class="select-button">Select</button></a>
+                </span>
+            </div>
+        </div>
+
+        <div class="player-bar" >
+            <div style="font-weight:bold;"> Who is your father?
+                <span style="float:right;">
+                        <a><button class="select-button">Select</button></a>
+                </span>
+            </div>
+        </div>
+
+        <div class="player-bar" >
+            <div style="font-weight:bold;"> Which side of the bed do you sleep?
+                <span style="float:right;">
+                        <a><button class="select-button">Select</button></a>
+                </span>
+            </div>
+        </div>
+
+        <button mat-raised-button style="margin: 10px 1px; color:gold ">Pick another 3 for me!</button>
+        </div>
+        
+
+
+
+        <div class="custom-question">
+            <p style="margin-top: 20px;">Write your custom question rather </p>
+
+            <form (submit)="daryUser()">
+                <mat-form-field appearance="outline" style="width:100%; color:white;" >
+                    <mat-label style="color:white">My Question</mat-label>  
+                    <textarea matInput required  rows="5" cols="50" minlength="30" [(ngModel)]="dare_content" placeholder="e.g. I dare you to send me a picture!" name="dare_content"></textarea>
+                </mat-form-field>
+
+                <button mat-raised-button type="submit" name="submit" >Ask Question </button>
+            </form>
+
+        </div>
+      
+    </div>
+    </ng-template>
+
+   
+    
 </div>
 
-<div>
 
-<form (submit)="daryUser()">    
-<textarea required rows="10" cols="50" [(ngModel)]="dare_content" placeholder="Dare your friends to do the craziest things" name="dare_content"></textarea>
-<input type="submit" name="submit" value="submit" />
-</form>
-
-</div>

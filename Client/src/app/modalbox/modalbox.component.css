@@ -1,0 +1,15 @@
+.modal-main{
+    /* background:#BBC6D9;
+    background-position: top right; */
+    background:white;
+}
+
+.modal-main button{
+    color:black;
+    background:yellow;
+
+}
+
+.modal-main input{
+    color:#908CB1;
+}

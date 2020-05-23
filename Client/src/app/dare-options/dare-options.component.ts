@@ -39,10 +39,9 @@ export class DareOptionsComponent implements OnInit {
         this.isLoading= false;
         let { email, username, uid } = nxtData[0].members.filter(v => v.uid == player_id)[0]
         console.log("this is my email data", email)
-        this.selected_daree = email
+        this.selected_daree = username
       }
 
-      
     }})
 
   }
@@ -50,18 +49,20 @@ export class DareOptionsComponent implements OnInit {
 
 
   daryUser(){
-    console.log(this.userStore.user_data(), "this is the end")
+   
+    if(this.dare_content.length < 15){
+      alert("Not enough words for a truthy question")
+      return;
+    }
+   
     let active_game = this.userStore.user_data().active_game;
-    alert(active_game)
-
-
-    
-    var fieldvalue = firebase.firestore.FieldValue;
-
+   var fieldvalue = firebase.firestore.FieldValue;
+   let challenge_id = Date.now()+ this.gameService.generateUIDWithTime()
    let daree = this.gameServiceStore.findGamePlayer(this.activeRoute.snapshot.params["daree_id"])
    let darer = this.gameServiceStore.findGamePlayer(this.activeRoute.snapshot.params["darer_id"])
    
    let data = {
+     id:challenge_id,
       darer_data: darer,
       daree_data: daree,
       question:{
@@ -71,7 +72,7 @@ export class DareOptionsComponent implements OnInit {
       answer:null
     }
     //we cant rely on darer.active game again
-    this.afs.collection("games").doc(active_game).set({isLocked:"LOCKED", "quests": fieldvalue.arrayUnion({ ...data })}, {merge:true} )
+    this.afs.collection("games").doc(active_game).set({  isLocked:"LOCKED", "quests": fieldvalue.arrayUnion({ ...data })}, {merge:true} )
     this.route.navigate(['app'])
 
 

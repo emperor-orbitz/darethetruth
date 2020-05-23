@@ -1,8 +1,275 @@
 .play-game-div{
     width:100%;
     text-align:center;
+    height:100%;      
+      
+}
+p, h2,h3, button, i, div{
+    font-family: 'Montserrat', sans-serif;
+  
+  }
+
+  
+.game-panel{
+    /* margin-top: 50px; */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: stretch;
+    height: 100%;
+    background-color: #5d3b78;
+    
+
 }
 
-.game-panel{
-    margin-top: 50px;
+.game-panel a, .game-panel b{
+color:gold;
+}
+
+.ds-hourglass{
+    display:inline-block;
+    position: relative;
+    width:80px;
+    height:80px;
+    order:1;
+    
+}
+
+.ds-hourglass:after{
+    content:" ";
+    display:block;
+    border-radius: 50%;
+    width:0;
+    height:0;
+    margin: 8px;
+    box-sizing: border-box;
+    border:32px solid #fff;
+    border-color:#908cb1 transparent gold transparent;
+    animation: ds-hourglass 1.2s infinite;
+
+
+}
+
+
+.main-loader{
+
+    height:100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    justify-content: center;
+    background: #5d3b78;
+    color:white;
+
+}
+
+.loader-flex{
+    order:1
+}
+
+.loader-flex-2{
+    order:2
+}
+
+
+.loader-flex-3{
+    order:3;
+    background:red;
+    height:10%;
+}
+
+
+.no-game{
+    /* background:#908CB1; */
+
+    height:100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: stretch;
+    
+}
+
+.welcome{
+    order:1;
+    color:black;
+    /* background:gold; */
+    position: relative;
+    font-weight: lighter;
+    /* height:15px; */
+
+    line-height: 40px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    background-color: white;
+    position: relative;
+}
+
+.welcome h3, .welcome b{
+    color:gold;
+}
+
+.welcome button{
+    padding:auto 7px;
+    float:right;
+}
+
+.no-game-section{
+order: 2;
+position: relative;
+height:100%;
+display: flex;
+flex-direction: column;
+justify-content:center ;
+align-items: center;
+justify-items:center;
+width: 100%;
+flex-wrap: wrap;
+background:#5d3b78;
+}
+
+
+.game-section{
+    order: 2;
+    position: relative;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly ;
+    align-items: center;
+    justify-items:center;
+    width: 100%;
+    flex-wrap: wrap;
+    background:#5d3b78;
+    }
+
+.no-game-section button{
+
+width:50%;
+height: 50px;
+background:gold;
+color: white;
+border-radius: 25px;
+
+}
+
+.create-game{
+order:1;
+width:100%;
+margin-bottom: 50px;
+}
+
+.join-game{
+    order:2;
+    width:100%;
+
+}
+
+
+.player-bar{
+    height:20px;
+    margin:auto 20%;
+    margin-bottom: 20px;
+    padding:15px 15px;
+    background:white;
+    color:black;
+    /* width:50%; */
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(12, 12, 12, 0.5);
+    text-overflow: ellipsis;
+
+}
+    
+.game-page{
+    order: 2;
+    position: relative;
+    /* min-height:100%; */
+    display: flex;
+    flex-direction: column;
+    /* justify-content:center ; */
+    align-items: center;
+    justify-items:center;
+    justify-content: center;
+    width: 100%;
+    background-color:#5d3b78;
+    color:white;
+    padding-bottom: 70px;
+}
+
+
+
+
+.game-actions{
+order:1;
+flex-shrink: 5;
+height: 150px;
+margin-top:10px;
+}
+
+
+.game-players{
+order:2;
+width:90%;
+}
+
+
+.truth-button{
+    background-color: #ef5c76 ;
+    padding:5px 7px;
+    width:60px;
+    border-radius: 11px;
+    border:none;
+    cursor: pointer;
+}
+
+
+.dare-button{
+    background-color: #BBC6D9 ;
+    padding:5px 7px;
+    width:60px;
+    border-radius: 11px;
+    border:none;
+    cursor: pointer;
+
+}
+
+
+
+.player-bar:hover{
+    box-shadow: 5px 7px 8px rgba(12, 12, 12, 0.4);
+    cursor: pointer;
+    /* background:#908cb1 */
+
+}
+
+
+
+@keyframes ds-hourglass{
+    0%{
+        transform:rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+    50%{
+        transform:rotate(900edeg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+        }
+        100%{
+            transform: rotate(1800deg);
+        }
+    }
+
+
+    
+@media screen and (max-width: 420px) {
+   
+    .create-game, .join-game{
+        width:100%;
+  }
+  .player-bar{
+      margin:5px 1%;
+  }
 }

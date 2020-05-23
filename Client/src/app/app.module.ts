@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {FormsModule, ReactiveFormsModule} from "@angular/forms"
 import { MatInputModule } from "@angular/material/input"
 import { MatCardModule } from "@angular/material/card"
-import {MatButtonModule} from "@angular/material/button"
+import {MatButtonModule, MatAnchor} from "@angular/material/button"
 import {MatGridListModule } from "@angular/material/grid-list"
 import { OverlayModule } from '@angular/cdk/overlay';
 
@@ -28,7 +28,10 @@ import { CheckAnswerComponent } from './check-answer/check-answer.component';
 import { MatDialogModule} from '@angular/material/dialog';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { IndexComponent } from './index/index.component';
-
+import {MatIconModule} from "@angular/material/icon"
+import {MatToolbarModule} from "@angular/material/toolbar";
+import { ModalboxComponent } from './modalbox/modalbox.component';
+import {MatExpansionModule} from "@angular/material/expansion"
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { IndexComponent } from './index/index.component';
     PlayGameComponent,
     GiveAnswerComponent,
     CheckAnswerComponent,
-    IndexComponent
+    IndexComponent,
+    ModalboxComponent,
   ],
   imports: [
     OverlayModule,
@@ -51,14 +55,18 @@ import { IndexComponent } from './index/index.component';
     FormsModule,
      AngularFireModule.initializeApp(environment.firebaseConfig),
      AngularFireStorageModule,
-    MatInputModule, MatCardModule, MatButtonModule,
+    MatInputModule, MatCardModule, MatButtonModule, MatIconModule,
     HttpClientModule,
     ReactiveFormsModule,
     AngularFireAuthModule,
     MatGridListModule,
     AngularFirestoreModule,
     //RouterModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatExpansionModule
+
+    
   ],
   providers: [ ],
   bootstrap: [AppComponent]

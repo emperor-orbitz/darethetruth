@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { GiveAnswerComponent } from '../give-answer/give-answer.component';
 import { UserStoreService } from '../user-store.service';
 import { Router } from '@angular/router';
+import { ModalboxComponent } from '../modalbox/modalbox.component';
 
 
 
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./check-answer.component.css']
 })
 export class CheckAnswerComponent implements OnInit {
-  isLoading: boolean;
+  isLoading: boolean=false;
   active_game: any;
   quests: any;
   game: any;
@@ -27,7 +28,10 @@ export class CheckAnswerComponent implements OnInit {
     
     this.gs.game$.subscribe({
       next:(nxt)=> {
-        if (nxt == null) { this.isLoading = true }
+        if (nxt == null) {
+           this.isLoading = false;
+            
+        }
           else if (nxt.length == 0) {
             console.log("his", nxt)
             this.isLoading = false
@@ -36,13 +40,14 @@ export class CheckAnswerComponent implements OnInit {
           }
           else {
             this.user_id = this.userStore.user_data().uid
-            console.log(this.user_id, "this is me gan")
+
             //this.user = this.gameService.user_data
             this.isLoading = false
             this.active_game = true;
             this.quests = nxt[0].quests //reverse order ascending
             this.game = nxt[0]
-            
+
+
             
           }
       }
@@ -52,11 +57,13 @@ export class CheckAnswerComponent implements OnInit {
 
   
   replyChallenge(data): void {
-    const dialogRef = this.dialog.open(GiveAnswerComponent, {
-      width: '250px',
+    const dialogRef = this.dialog.open(ModalboxComponent, {
+      width: '300px',
+      minHeight:"200px",
       data:{
-        current_game:data,
-        game: this.gs._game.getValue()[0].quests,
+          type:"REPLY-CHALLENGE",
+          current_game:data,
+          game: this.gs._game.getValue()[0].quests,
         //active game ID
         active_game_id:this.userStore.user_data().active_game
       }
