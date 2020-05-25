@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import {AuthService} from "../auth.service"
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ModalboxComponent } from '../modalbox/modalbox.component';
+import {MatDialog} from '@angular/material/dialog';
+
 
 
 //Create simpleTODO first
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   title ='Dashboard'
 
-  constructor(private auth: AuthService, private route:Router) {}
+  constructor(private dialog:MatDialog) {}
 
   stories: Array<any> =[]
   ngOnInit(): void {
@@ -25,16 +26,25 @@ export class DashboardComponent implements OnInit {
 
   }
 
-
   logout(){
-this.auth.logout().then(success=>{
-  localStorage.removeItem("dtd_user")
-    this.route.navigate(['login'])
-})
-.catch(err=>{
-  console.log("there was an error heere")
-})
+
+    const dialogRef = this.dialog.open(ModalboxComponent, {
+      width: '300px',
+      minHeight:"200px",
+      data:{
+          type:"LOGOUT-CONFIRM",
+     
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(
+      {
+      next: (result) => { } // Do nothing
+  })
+
+
   }
 
+ 
 
 }

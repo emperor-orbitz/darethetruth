@@ -2,10 +2,11 @@
 <mat-toolbar class="toolbar">
 
   <mat-toolbar-row>
-    <span>Realm</span>
+    <h3><a href="/" style="text-decoration:none; color: white;">Realm</a></h3>
     <span class="spacer-toolbar"></span>
+    <mat-icon class="toolbar-icon"><a style="text-decoration:none; color: gold;" routerLink="/app">people_outline</a></mat-icon>
     <mat-icon class="toolbar-icon"><a style="text-decoration:none; color: gold;" routerLink="check-answer">comment</a></mat-icon>
-    <mat-icon class="toolbar-icon">person_outline</mat-icon>
+    <mat-icon class="toolbar-icon"><a style="text-decoration:none; color: white;" routerLink="profile">person_outline</a></mat-icon>
     
     <mat-icon class="toolbar-icon" (click)="logout()" aria-label="logout ">exit_to_app</mat-icon>
   </mat-toolbar-row>

@@ -3,7 +3,7 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { Observable, Subscription } from 'rxjs';
 import {AuthService} from './auth.service'
 import {AngularFireAuth} from "angularfire2/auth"
-import {map, take , } from "rxjs/operators"
+import {map, take  } from "rxjs/operators"
 
 
 @Injectable({
@@ -18,16 +18,16 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        // return true
-  return this.afa.authState.pipe( map(user =>{
-    if(user){
-      return true
-    }
+        return true
+  // return this.afa.authState.pipe( map(user =>{
+  //   if(user){
+  //     return true
+  //   }
 
-    return this.route.parseUrl("/login")
-  })
+  //   return this.route.parseUrl("/login")
+  // })
   
-  ) 
+  // ) 
 
  
   }
@@ -38,15 +38,17 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      return this.afa.authState.pipe( map(user =>{
-        if(user){
-          return true
-        }
+      // return this.afa.authState.pipe( map(user =>{
+      //   if(user){
+      //     return true
+      //   }
     
-        return this.route.parseUrl("/login")
-      })
+      //   return this.route.parseUrl("/login")
+      // })
       
-      ) 
-      }
+      // ) 
+      
+    return true;
+  }
   
 }

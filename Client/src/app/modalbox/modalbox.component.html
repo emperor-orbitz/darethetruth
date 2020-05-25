@@ -26,6 +26,10 @@
         <button mat-raised-button (click)="submitProof()" style="color:white">Answer</button>
         </div>
     
-        
+        <div *ngIf="MODAL_TYPE =='LOGOUT-CONFIRM'"> 
+            <h2>Logout!</h2>
+            <p> Really want to log out?</p>
+            <button mat-button (click)="logout()">Yes, log out</button>
+            </div>      
 
 </div>

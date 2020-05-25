@@ -13,3 +13,7 @@
 .modal-main input{
     color:#908CB1;
 }
+p, h2,h3, button, i, div{
+    font-family: 'Montserrat', sans-serif;
+  
+  }

@@ -37,6 +37,7 @@ export class SignupComponent implements OnInit {
              //register in database
           this.auth.createUser({username:form.value.username,email: form.value.email.toLowerCase(), password: form.value.password})
           .then(user =>{
+            alert("User created successfully!")
             console.log(user, "user is void")
           },
           fail =>{

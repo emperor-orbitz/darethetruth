@@ -1,0 +1,48 @@
+.profile-div{
+    
+    height:100%;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    align-content: space-around;
+}
+a{
+    color:gold;
+}
+p, h2,h3, button, i, mat-card{
+    font-family: 'Montserrat', sans-serif;
+  
+  }
+
+.user-profile{
+order: 1;
+width:50%;
+margin-bottom:50px;
+}
+
+.password-settings{
+    order: 2;
+    width:50%;
+    margin-bottom: 100px;
+    }
+
+.profile-div h2{
+    text-align: left;
+    /* text-align: center; */
+    margin: 40px auto;
+}
+
+mat-card-subtitle{
+    color:gold;
+}
+
+@media screen and (max-width: 420px) {
+   
+    .user-profile{
+        width:90%;
+        }
+        
+        .password-settings{
+            width:90%;
+            }
+}

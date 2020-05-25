@@ -41,9 +41,9 @@ export class PlayGameComponent implements OnInit {
   constructor(private US:UserStoreService, private dialog:MatDialog ,private authService: AuthService, private gameService: GameService, private gs: GameStoreService) {
    // this.authService.loggedInStatus.then(e => {this.me = e})
    
-    this.authService.user_data().then(  e=>{
+    // this.authService.user_data().then(  e=>{
       
-    })
+    // })
   
   }
 
@@ -67,51 +67,22 @@ export class PlayGameComponent implements OnInit {
       {next: (nxt: any) => {
       if (nxt == null) { 
         this.isLoading = true
-        console.log(nxt, "this is nxt loadr")
-
-        //TESTING: Remove this remaining line when done
-        // this.active_game = true;
-        // this.pendingAction=false
-        // this.invite_code ="CX9ab0"
-        // this.members = [
-        //   {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   {username:"Abdultoyyib", email:"malor@git.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   {username:"Abdulreazzaq", email:"malorbit@yajhoo.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdultoyyib", email:"malor@git.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulreazzaq", email:"malorbit@yajhoo.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"}, {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdultoyyib", email:"malor@git.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulreazzaq", email:"malorbit@yajhoo.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulreazzaq", email:"malorbit@yajhoo.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"}, {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdultoyyib", email:"malor@git.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulreazzaq", email:"malorbit@yajhoo.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-        //   // {username:"Abdulmalik", email:"malorbit@gmail.com", uid:"dfdddsd827364232", active_game:"dsdsdsds"},
-
-
-
-        // ]
-        // this.game = nxt[0]
-        // this.notification =true
-
         
       }
+
       else if (nxt.length == 0) {
         this.isLoading = false
         this.active_game = false
-
-        //this.pendingAction =false
       }
       else {
-        let index = nxt[0].quests.findIndex(v => v.daree_data.uid == this.US.user_data().uid && v.answer == null)
-        if(index > -1){
-          this.notification =true
+        
+       
+        if(nxt[0].quests ){
+          let occur = nxt[0].quests.findIndex(v => v.daree_data.uid == this.US.user_data().uid && v.answer == null)
+          let index = occur == undefined? -1 : occur;
+          this.notification = index > -1? true : false
         }
-      
-      
+          
         this.setUser(this.US.user_data())
         this.isLoading = false
         this.active_game = true;

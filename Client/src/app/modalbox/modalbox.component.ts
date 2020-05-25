@@ -5,6 +5,10 @@ import { AngularFirestore } from "angularfire2/firestore"
 import { GameStoreService } from "../game-store.service"
 import { GameService } from '../game.service';
 import { UserStoreService } from '../user-store.service';
+import {AuthService} from "../auth.service"
+import { Router } from '@angular/router';
+
+
 
 interface Data {
   current_game: {
@@ -35,7 +39,7 @@ export class ModalboxComponent implements OnInit {
   MODAL_TYPE:string=""
   GAME_ID:string=""
 
-  constructor(private game_service:GameService ,private user_store:UserStoreService,private gs:GameStoreService ,@Inject(MAT_DIALOG_DATA) public data:Data, private afs: AngularFirestore,public dialogRef:MatDialogRef<ModalboxComponent>, private fireStorage:AngularFireStorage) { 
+  constructor (private auth: AuthService, private route: Router,   private game_service:GameService ,private user_store:UserStoreService,private gs:GameStoreService ,@Inject(MAT_DIALOG_DATA) public data:Data, private afs: AngularFirestore,public dialogRef:MatDialogRef<ModalboxComponent>, private fireStorage:AngularFireStorage) { 
     this.MODAL_TYPE= data.type
   }
 
@@ -101,4 +105,17 @@ export class ModalboxComponent implements OnInit {
   changeFile(files: FileList) {
     this.proof = files.item(0)
   }
+
+
+  logout(){
+    //alert a popup first
+this.auth.logout().then(success=>{
+  localStorage.removeItem("dtd_user")
+    this.route.navigate(['login'])
+})
+.catch(err=>{
+  console.log("there was an error heere")
+})
+  }
+
 }

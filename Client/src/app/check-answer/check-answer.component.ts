@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { GameStoreService } from '../game-store.service';
 import { GameService } from '../game.service';
 import {MatDialog} from '@angular/material/dialog';
-import { GiveAnswerComponent } from '../give-answer/give-answer.component';
 import { UserStoreService } from '../user-store.service';
 import { Router } from '@angular/router';
 import { ModalboxComponent } from '../modalbox/modalbox.component';
