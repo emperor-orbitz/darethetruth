@@ -4,7 +4,7 @@ import { AuthService } from "./auth.service"
 import {GameStoreService} from "./game-store.service"
 import * as firebase from 'firebase/app'
 import {UserStoreService} from "./user-store.service"
-
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class GameService {
   subscribed_game: any;
   game:any
 
-  constructor( private userStore:UserStoreService, private afs: AngularFirestore, private authService: AuthService, private gs: GameStoreService) {
+  constructor( private route:Router, private userStore:UserStoreService, private afs: AngularFirestore, private authService: AuthService, private gs: GameStoreService) {
     
     this.subscribeToGame()
 
@@ -54,6 +54,7 @@ export class GameService {
                       nxtFn.quests.reverse()  //add reversed game
                         this.gs.addGame([nxtFn])
                     }
+                    
                     else this.gs.addGame([])
             
             
@@ -129,9 +130,10 @@ export class GameService {
 
     let my_ = this.userStore.user_data() //snapshot.
     let filter = this.gs.removeGameMember(my_.uid)
-    await this.afs.doc(`users/${my_.uid}`).update({active_game:null}) //1
     await this.afs.doc(`games/${my_.active_game}`).update({members: filter })
- 
+    await this.afs.doc(`users/${my_.uid}`).update({active_game:null}) //1
+    document.location.href="/app"
+    // this.gs.setToEmpty()
     
     
    

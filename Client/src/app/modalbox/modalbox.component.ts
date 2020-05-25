@@ -111,6 +111,8 @@ export class ModalboxComponent implements OnInit {
     //alert a popup first
 this.auth.logout().then(success=>{
   localStorage.removeItem("dtd_user")
+  this.dialogRef.close('SUCCESS');
+
     this.route.navigate(['login'])
 })
 .catch(err=>{

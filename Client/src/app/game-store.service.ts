@@ -87,5 +87,9 @@ return await this.questFind(active_game_id).then(data=>{
     let filter = members.filter(v => v.uid != uid)
     return filter;
   }
-
+   
+  setToEmpty(){
+   // this._game.unsubscribe()
+    //this._game.next([])
+  }
 }

@@ -15,7 +15,7 @@ import {UserStoreService} from "../user-store.service"
   styleUrls: ['./play-game.component.css']
 })
 export class PlayGameComponent implements OnInit {
-
+  game_mode_text ="Start a Game"
   title: String = "Players"
   activity: AngularFirestoreDocument
   game_link: String
@@ -115,6 +115,7 @@ export class PlayGameComponent implements OnInit {
 
 
   async createGame() {
+    this.game_mode_text =" Setting up your game..."
     this.gameService.createGame()
   }
 
@@ -131,6 +132,7 @@ export class PlayGameComponent implements OnInit {
 
   leaveGame() {
     this.gameService.leaveGame()
+
   }
 
 
