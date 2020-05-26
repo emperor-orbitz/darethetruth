@@ -40,7 +40,7 @@
                   
                     <div *ngIf="quest.answer != null">
                         <p><b>ANSWER:</b> {{quest.answer.text}}</p>
-                        <img src ="{{quest.answer.proof}}" style="width:90%; height:200px;"/>
+                        <img *ngIf="quest.question.type =='DARE'" src ="{{quest.answer.proof}}" style="width:99%; height:300px;"/>
                     </div>
                   
                 </mat-expansion-panel>

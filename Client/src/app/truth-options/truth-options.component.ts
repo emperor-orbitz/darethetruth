@@ -19,6 +19,7 @@ export class TruthOptionsComponent implements OnInit {
   selected_daree: String = ""
   isLoading = true
   truth_content = ""
+  questions =[]
   constructor(private route:Router, private userStore: UserStoreService, private activeRoute: ActivatedRoute, private afs: AngularFirestore, private gameService: GameService, private gameServiceStore: GameStoreService) {
 
   }
@@ -26,12 +27,19 @@ export class TruthOptionsComponent implements OnInit {
   ngOnInit(): void {
     //get the id from router params and find user data in store
     //we need to subscribe here
+    //Also, load random three truth questions from DB
+
+    this.findQuestions()
+    
+   
+
     let player_id = this.activeRoute.snapshot.params["daree_id"]
     this.gameServiceStore.game$.subscribe(
       {
         next: (nxtData) => {
           if (nxtData == null) {
             //loading store
+            this.isLoading=false
           }
           else {
             this.isLoading = false;
@@ -40,8 +48,6 @@ export class TruthOptionsComponent implements OnInit {
           }
         }
       })
-
-
 
 
 
@@ -73,14 +79,72 @@ export class TruthOptionsComponent implements OnInit {
      //we cant rely on darer.active game again
      this.afs.collection("games").doc(active_game).set({  isLocked:"LOCKED", "quests": fieldvalue.arrayUnion({ ...data })}, {merge:true} )
      this.route.navigate(['app'])
- 
- 
    
 
   }
 
 
+  autoTruthy(data){
+    let active_game = this.userStore.user_data().active_game;
+    var fieldvalue = firebase.firestore.FieldValue;
+    let challenge_id = Date.now()+ this.gameService.generateUIDWithTime()
+    let daree = this.gameServiceStore.findGamePlayer(this.activeRoute.snapshot.params["daree_id"])
+    let darer = this.gameServiceStore.findGamePlayer(this.activeRoute.snapshot.params["darer_id"])
+    
+    let question = {
+      id:challenge_id,
+       darer_data: darer,
+       daree_data: daree,
+       question:{
+         type:data.type,
+         content:data.content
+       },
+       answer:null
+     }
+     //we cant rely on darer.active game again
+     this.afs.collection("games").doc(active_game).set({  isLocked:"LOCKED", "quests": fieldvalue.arrayUnion({ ...question })}, {merge:true} )
+     this.route.navigate(['app'])
+   
+  }
 
+
+  randomizer(data_array:Array<any>){
+    
+    //randomixe the array
+    var item1 = data_array[Math.floor(Math.random() * data_array.length)];
+    var item2 = data_array[Math.floor(Math.random() * data_array.length)];
+    var item3 = data_array[Math.floor(Math.random() * data_array.length)];
+    
+    this.questions =[item1, item2]
+    if(item1.content == item2.content){
+
+      this.questions[1] =item3
+    }
+
+  }
+
+  findQuestions(){
+    this.afs.collection("truth-question",qFn=> qFn.limit(15)).get().toPromise().then(
+      doc=>{
+        let xx =[]
+        doc.forEach(n=> {
+          xx.push(n.data())
+          console.log(n.data()) 
+        })
+        console.log("xxx", xx)
+        this.randomizer(xx)
+
+      }
+    )
+
+  }
+
+selectQuestion(question:object){
+  console.log("selected this right?", question)
+}
+shuffleQuestion(){
+  alert("I have suffled a new set of questions")
+}
 
 
 }

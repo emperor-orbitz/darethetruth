@@ -22,7 +22,7 @@ export class PlayGameComponent implements OnInit {
   active_game: any = false
   user_id: any
   active_players: Array<any>[]
-  members: any = ""
+  members: any = []
   open_join_game_id: Boolean = false
   join_game_id: any
   me:firebase.firestore.DocumentData
@@ -39,11 +39,7 @@ export class PlayGameComponent implements OnInit {
   invite_code:string
   notification: boolean = false
   constructor(private US:UserStoreService, private dialog:MatDialog ,private authService: AuthService, private gameService: GameService, private gs: GameStoreService) {
-   // this.authService.loggedInStatus.then(e => {this.me = e})
-   
-    // this.authService.user_data().then(  e=>{
-      
-    // })
+  
   
   }
 
@@ -62,11 +58,19 @@ export class PlayGameComponent implements OnInit {
     
     //subscribe to game_store
 
-
     this.gs.game$.subscribe(
       {next: (nxt: any) => {
       if (nxt == null) { 
-        this.isLoading = true
+        // this.isLoading = false;
+        // this.active_game = true
+        //for testing
+//         this.members=[
+//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"},
+//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"},
+//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"},
+//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"}
+// ,
+//         ]
         
       }
 
