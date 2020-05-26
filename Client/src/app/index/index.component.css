@@ -1,0 +1,58 @@
+p, h2,h1,a,h3, button, i{
+    font-family: 'Montserrat', sans-serif;
+  
+  }
+
+  .spacer-toolbar{
+    flex:1 1 auto;
+  }
+
+  .toolbar-icon{
+    padding:0 14px;
+    cursor: pointer;
+  }
+
+  .toolbar{
+    background-color: #5D3B78;
+    color: white;
+  }
+.content{
+  width: 100%;
+  height:100%;
+  background-color: #5D3B78;
+  color: white;
+}
+
+.main{
+  width:40%;
+  float:left;
+  margin:10% 3% auto 7%;
+}
+.phone{
+  height:100%;
+  width:50%;
+  position: relative;
+  float:left;
+}
+.phone img{
+  width: 95%;
+  height:95%;
+}
+
+
+@media screen and (max-width: 420px) {
+   
+.phone{
+  display: none;
+}
+.main{
+  background-color: #5D3B78;
+  width:60%;
+  float:left;
+  margin:20% 5%;
+  color:white !important;
+}
+.content{
+  background-color: #5D3B78;
+}
+}

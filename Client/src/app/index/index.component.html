@@ -1,9 +1,31 @@
-<div>
-<h1>Truth/Dare App</h1>
-<p>Signup with friends to start a game</p>
-<ol>
-    <a routerLink="login"><li>Login</li></a>
-    <a routerLink="signup"><li>Create new account</li></a>
 
-</ol>
-</div>
+<div class="content">
+<mat-toolbar class="toolbar">
+
+    <mat-toolbar-row>
+      <h3><a href="/" style="text-decoration:none; color: white;">Realm</a></h3>
+      <span class="spacer-toolbar"></span>
+      <!-- <mat-icon class="toolbar-icon"><a style="text-decoration:none; color: gold;" routerLink="/app">people_outline</a></mat-icon>
+      <mat-icon class="toolbar-icon"><a style="text-decoration:none; color: gold;" routerLink="check-answer">comment</a></mat-icon>
+      <mat-icon class="toolbar-icon"><a style="text-decoration:none; color: white;" routerLink="profile">person_outline</a></mat-icon>
+      
+      <mat-icon class="toolbar-icon" (click)="logout()" aria-label="logout ">exit_to_app</mat-icon> -->
+    </mat-toolbar-row>
+  
+  </mat-toolbar>
+  
+  
+    <div class="main">
+        <h1>Realm Truth or Dare</h1>
+        <p>Signup on realm with friends and have access to the fun in groups.</p>
+
+            <a routerLink="login"> <button mat-raised-button>log In</button></a><br><br/>
+            <a routerLink="signup"> <button style="background-color: gold;"  mat-raised-button>Create a player account</button></a>
+
+        </div>
+        <div class="phone">
+            </div>
+  </div>
+  
+
+

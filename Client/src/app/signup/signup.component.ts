@@ -18,6 +18,7 @@ export class SignupComponent implements OnInit {
     active:false,
     message:""
   }
+  onSubmit: boolean;
   //email_taken:Boolean= false;
   constructor(private auth:AuthService, private router: Router, private afs:AngularFirestore) { }
 
@@ -25,23 +26,30 @@ export class SignupComponent implements OnInit {
 
 
   signup(form: NgForm){
+    this.onSubmit = true
     this.error.active = false
     if(form.invalid){
+      this.onSubmit = false
+
        return;
      }
      else{
       //check database for username if present
       this.auth.checkUsername(form.value.username).then(
         (doc)=>{
+          this.onSubmit = true
+
            if(doc.length==0){
              //register in database
           this.auth.createUser({username:form.value.username,email: form.value.email.toLowerCase(), password: form.value.password})
           .then(user =>{
+            this.onSubmit = false
             alert("User created successfully!")
+            this.router.navigate(["login"])
             console.log(user, "user is void")
           },
           fail =>{
-           console.log(fail)
+            this.onSubmit = false
               this.error.active = true;
               this.error.message = fail.message
             
