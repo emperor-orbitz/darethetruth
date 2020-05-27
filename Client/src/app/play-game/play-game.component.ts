@@ -7,7 +7,7 @@ import { GameStoreService } from '../game-store.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalboxComponent } from '../modalbox/modalbox.component';
 import {UserStoreService} from "../user-store.service"
-
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-play-game',
@@ -38,7 +38,8 @@ export class PlayGameComponent implements OnInit {
   pendingAction: boolean;
   invite_code:string
   notification: boolean = false
-  constructor(private US:UserStoreService, private dialog:MatDialog ,private authService: AuthService, private gameService: GameService, private gs: GameStoreService) {
+  leave_game:string ="leave Game"
+  constructor(private route:Router, private US:UserStoreService, private dialog:MatDialog ,private authService: AuthService, private gameService: GameService, private gs: GameStoreService) {
   
   
   }
@@ -61,22 +62,15 @@ export class PlayGameComponent implements OnInit {
     this.gs.game$.subscribe(
       {next: (nxt: any) => {
       if (nxt == null) { 
-        // this.isLoading = false;
-        // this.active_game = true
-        //for testing
-//         this.members=[
-//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"},
-//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"},
-//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"},
-//           {username:"malik", uid:"2343ewsdfgb", email:"sdinsmaksdf@dd.com", active_game:"abcdef"}
-// ,
-//         ]
+     //Do nothing
         
       }
 
       else if (nxt.length == 0) {
         this.isLoading = false
         this.active_game = false
+        this.notification =true
+        this.my_username =this.US.user_data().username
       }
       else {
         
@@ -103,15 +97,31 @@ export class PlayGameComponent implements OnInit {
 
   copyToClipboard(code){
 
- var dummy = document.createElement("textarea")
- document.body.appendChild(dummy)
- dummy.value =code
- dummy.select()
- document.execCommand("copy")
- document.body.removeChild(dummy)
- alert("Game Key copied!")
+//  var dummy = document.createElement("textarea")
+//  document.body.appendChild(dummy)
+//  dummy.value =code
+//  dummy.select()
+//  document.execCommand("copy")
+//  document.body.removeChild(dummy)
+//  alert("Game Key copied!")
     
+const dialogRef = this.dialog.open(ModalboxComponent, {
+  width: '300px',
+  minHeight:"300px",
+  data:{
+      type:"SHARE-KEY",
+      game_key:this.invite_code
+ 
+  }
+});
+
+dialogRef.afterClosed().toPromise().then(
   
+ (result) => {
+
+  console.log('The dialog was closed. RESULT:', result );
+}
+)
   }
 
 
@@ -135,7 +145,8 @@ export class PlayGameComponent implements OnInit {
 
 
   leaveGame() {
-    this.gameService.leaveGame()
+    this.leave_game = "Wait! Clearing things up....."
+    this.gameService.leaveGame().then(_=> this.route.navigate(["app"]))
 
   }
 
@@ -154,7 +165,7 @@ export class PlayGameComponent implements OnInit {
     dialogRef.afterClosed().toPromise().then(
       
      (result) => {
-  
+      this
       console.log('The dialog was closed. RESULT:', result );
     }
   )

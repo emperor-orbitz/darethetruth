@@ -21,6 +21,7 @@ interface Data {
   game: Array<any>,
   active_game_id: String,
   type: string,
+  game_key:string
 
 }
 
@@ -46,6 +47,7 @@ export class ModalboxComponent implements OnInit {
 
   constructor(private auth: AuthService, private route: Router, private game_service: GameService, private user_store: UserStoreService, private gs: GameStoreService, @Inject(MAT_DIALOG_DATA) public data: Data, private afs: AngularFirestore, public dialogRef: MatDialogRef<ModalboxComponent>, private fireStorage: AngularFireStorage) {
     this.MODAL_TYPE = data.type
+    
   }
 
   ngOnInit(): void {
@@ -166,5 +168,35 @@ export class ModalboxComponent implements OnInit {
         console.log("there was an error heere")
       })
   }
+
+  closeModal() {
+    //alert a popup first
+      this.dialogRef.close('SUCCESS');
+
+  }
+
+  copyToClipboard(){
+    var dummy = document.createElement("textarea")
+    document.body.appendChild(dummy)
+    dummy.value =this.data.game_key
+    dummy.select()
+    document.execCommand("copy")
+    document.body.removeChild(dummy)
+    this.dialogRef.close("SUCCESS")
+    alert("Game Key copied!")
+   
+  }
+
+  copyToWhatsapp(){
+
+    let url = encodeURIComponent(`Hey, Don't be bored. Have you played truth/dare on Realm before?. Signup and join my game with this Key: ${this.data.game_key}`)
+    console.log(url)
+    window.location.href = `https://wa.me/?text="${url}"`
+
+    this.dialogRef.close("SUCCESS")
+    alert("Game Key copied!")
+   
+  }
+
 
 }

@@ -17,7 +17,7 @@
         <div class="item-1"> 
         <header class="header">
               <h2>Welcome back!</h2>
-              <span>Login to enter playground</span>
+              <p>Login to enter playground</p>
           </header>
         </div>
         <div class="item-error" *ngIf="error.active"> 
@@ -47,7 +47,7 @@
                 <input matInput placeholder="Password" ngModel name="password" required #password='ngModel' type="password" />
                 <mat-error *ngIf='password.invalid'> Password is required </mat-error>
               </mat-form-field>
-              <p style="text-align: right;"><i>Forgot password?</i></p>
+              <p style="text-align: right;"><a style="text-decoration: none;color: #000" href="">Forgot password?</a></p>
 
                   <button mat-raised-button color="primary" type="submit" class="login-button">Enter</button>
             </form>
@@ -56,7 +56,7 @@
            </div> 
 
            <div class="item-3">
-         Don't have an account? <a routerLink="../signup">Signup</a>
+         <p>Don't have an account? <a routerLink="../signup">Signup</a></p>
 
         </div>
 

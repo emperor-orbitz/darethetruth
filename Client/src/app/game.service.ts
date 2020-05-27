@@ -126,13 +126,11 @@ export class GameService {
   async leaveGame(){
     //remove from user doc
     //remove from players array
-    var fieldvalue = firebase.firestore.FieldValue;
 
     let my_ = this.userStore.user_data() //snapshot.
     let filter = this.gs.removeGameMember(my_.uid)
     await this.afs.doc(`games/${my_.active_game}`).update({members: filter })
     await this.afs.doc(`users/${my_.uid}`).update({active_game:null}) //1
-    document.location.href="/app"
     // this.gs.setToEmpty()
     
     

@@ -7,7 +7,7 @@
    <div *ngIf="MODAL_TYPE =='GAME-KEY' "> 
        <p>Join a game through an invite key</p>
        <mat-form-field appearance="legacy" style="width: 100%;">
-           <label>Short Key</label>
+           <label>Game Key</label>
            <input matInput type="text" placeholder="e.g. xA39cc" [(ngModel)]="GAME_ID" required minlength="4"/>
        </mat-form-field>
        <button mat-raised-button (click) ="useShortKey()" >JOIN</button>
@@ -30,6 +30,22 @@
             <h2>Logout!</h2>
             <p> Really want to log out?</p>
             <button mat-button (click)="logout()">Yes, log out</button>
-            </div>      
+        </div>    
+        
+        
+        <div *ngIf="MODAL_TYPE =='SIGNUP-SUCCESS'"> 
+            <h2>Yippeee!</h2>
+            <p> Your account was created successfully.</p>
+            <button mat-button class="login-button" (click)="closeModal()">Log In?</button>
+        </div>    
+
+
+        <div *ngIf="MODAL_TYPE =='SHARE-KEY'"> 
+            <h4>Let's Add them up!</h4>
+            <span style="font-size:12px; margin-bottom:20px"> Invite friends with your game key..</span>
+            <button mat-button (click)="copyToClipboard()" class="share-button">Copy to Clipboard!</button>
+            <button mat-button  (click)="copyToWhatsapp()" class="whatsapp share-button"> Share on WhatsApp</button>
+
+        </div>
 
 </div>

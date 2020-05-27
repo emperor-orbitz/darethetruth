@@ -20,7 +20,7 @@
           <div class="item-1"> 
           <header class="header">
                 <h2>Let's Game!</h2>
-                <span>Create an account to get started </span>
+                <p>Create an account to get started </p>
             </header>
           </div>
           <div class="item-error" *ngIf="error.active"> 
@@ -59,7 +59,7 @@
                   <input matInput placeholder="GU3SS_H@Rd_p@33w0rd" ngModel name="password" required #password='ngModel' type="password" />
                   <mat-error *ngIf='password.invalid'> Password is required </mat-error>
                 </mat-form-field>
-                <p style="text-align: right;"><i>Forgot password?</i></p>
+                <p style="text-align: right;"></p>
   
                     <button mat-raised-button color="primary" type="submit" [disabled]="onSubmit==true" class="login-button">Create an account</button>
               </form>
@@ -67,7 +67,7 @@
               <!--</mat-card>-->
              </div> 
           <div class="item-3">
-           Have an account? <a routerLink="../login">Log In</a>
+          <p> Have an account? <a routerLink="../login">Log In</a></p>
   
           </div>
   

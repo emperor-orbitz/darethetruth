@@ -5,9 +5,8 @@
 }
 
 .modal-main button{
-    color:black;
+    color:white;
     background:yellow;
-
 }
 
 .modal-main input{
@@ -16,4 +15,24 @@
 p, h2,h3, button, i, div{
     font-family: 'Montserrat', sans-serif;
   
+  }
+
+  .login-button{
+      background-color: seagreen !important;
+  }
+  .share-button{
+      width:100%;
+      margin-bottom:15px;
+  }
+
+  .whatsapp{
+      background:green !important;
+
+  }
+
+  span{
+      margin-bottom:20px !important;
+  }
+  h2, h3{
+      margin-bottom:10px;
   }
