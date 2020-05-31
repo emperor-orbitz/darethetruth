@@ -3,6 +3,9 @@ p, h2,h3, button, i, div{
     font-family: 'Montserrat', sans-serif;
   
   }
+button{
+color: gold;
+}
 
 
 .check-answer-div{
